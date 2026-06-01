@@ -1,0 +1,44 @@
+{
+  "hash": "46b1f086",
+  "configHash": "7a347f93",
+  "lockfileHash": "7f014b88",
+  "browserHash": "df558cf4",
+  "optimized": {
+    "@base-ui/react/button": {
+      "src": "../../node_modules/@base-ui/react/esm/button/index.js",
+      "file": "@base-ui_react_button.js",
+      "fileHash": "9984da30",
+      "needsInterop": false
+    },
+    "class-variance-authority": {
+      "src": "../../node_modules/class-variance-authority/dist/index.mjs",
+      "file": "class-variance-authority.js",
+      "fileHash": "ac30c234",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "d121bc15",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "3f25265b",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "fa71b6f0",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "react-BejDdLFV": {
+      "file": "react-BejDdLFV.js",
+      "isDynamicEntry": false
+    }
+  }
+}

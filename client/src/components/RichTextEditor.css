@@ -1,0 +1,51 @@
+  @import "quill/dist/quill.snow.css";
+
+.ql-toolbar {
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: white;
+}
+
+.ql-container {
+  border: none !important;
+  min-height: 250px;
+  font-size: 16px;
+}
+
+.ql-editor {
+  min-height: 250px;
+  padding: 1rem;
+  line-height: 1.75;
+}
+
+.ql-editor:focus {
+  outline: none;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .ql-toolbar {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .ql-editor {
+    min-height: 200px;
+    font-size: 14px;
+    padding: 0.75rem;
+  }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .ql-editor {
+    min-height: 300px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .ql-editor {
+    min-height: 400px;
+  }
+}
