@@ -37,8 +37,15 @@ export const courseApi = createApi({
     body: formData,
   }),
   invalidatesTags: ["Refetch_Creator_Course"] // Keeps your list fresh!
-})
+  })
+  ,
+  getCourseById:builder.query({
+    query:(courseId) =>({
+      url:`/${courseId}`,
+      method:"GET"
+    })
+  })
   }),
 });
 
-export const { useCreateCourseMutation,useGetCreatorCourseQuery ,useEditCourseMutation} = courseApi;
+export const {useGetCourseByIdQuery,useCreateCourseMutation,useGetCreatorCourseQuery ,useEditCourseMutation} = courseApi;

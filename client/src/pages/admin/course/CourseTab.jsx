@@ -21,12 +21,14 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEditCourseMutation } from "@/features/courseApi";
+import { useEditCourseMutation, useGetCourseByIdQuery } from "@/features/courseApi";
 import { toast } from "sonner";
 
 const CourseTab = () => {
   const navigate = useNavigate();
-  const { courseId } = useParams(); // Extracting course ID from URL parameters
+  const { courseId } = useParams(); 
+  
+  const { data: courseByIdData, isLoading: courseByIdLoading } = useGetCourseByIdQuery(courseId);
   const [editCourse, { data, isLoading, isSuccess, error }] = useEditCourseMutation();
   
   const isPublished = false;
@@ -40,15 +42,31 @@ const CourseTab = () => {
     courseLevel: "",
     courseThumbnail: null,
   });
-  
+
   const [previewThumbnail, setPreviewThumbnail] = useState("");
+  const course = courseByIdData?.course;
+
+  useEffect(() => {
+    if (course) {
+      setInput({
+        courseTitle: course.courseTitle || "",
+        subTitle: course.subTitle || "",
+        description: course.description || "",
+        category: course.category || "",
+        coursePrice: course.coursePrice || "",
+        courseLevel: course.courseLevel || "",
+        courseThumbnail: null, 
+      });
+      
+      if (course.courseThumbnail) {
+        setPreviewThumbnail(course.courseThumbnail);
+      }
+    }
+  }, [course]);
 
   const changeEventHandler = (e) => {
     const { name, value } = e.target;
-    setInput((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setInput((prev) => ({ ...prev, [name]: value }));
   };
 
   const selectCategory = (value) => {
@@ -63,7 +81,6 @@ const CourseTab = () => {
     const file = e.target.files?.[0]; 
     if (file) {
       setInput((prev) => ({ ...prev, courseThumbnail: file }));
-      
       const fileReader = new FileReader();
       fileReader.onloadend = () => {
         setPreviewThumbnail(fileReader.result);
@@ -75,7 +92,7 @@ const CourseTab = () => {
   const saveHandler = async () => {
     const formData = new FormData();
     formData.append("courseTitle", input.courseTitle);
-    formData.append("subTitle", input.subTitle); // Fixed typo from 'subTilte'
+    formData.append("subTitle", input.subTitle);
     formData.append("description", input.description);
     formData.append("category", input.category);
     formData.append("courseLevel", input.courseLevel);
@@ -84,8 +101,7 @@ const CourseTab = () => {
     if (input.courseThumbnail) {
       formData.append("courseThumbnail", input.courseThumbnail);
     }
-         
-    // Pass an object containing both the courseId and your formData bundle
+        
     await editCourse({ courseId, formData });
   };
 
@@ -97,6 +113,14 @@ const CourseTab = () => {
       toast.error(error?.data?.message || "Failed to update course.");
     }
   }, [isSuccess, error, data]);
+
+  if (courseByIdLoading) {
+    return (
+      <div className="flex h-48 items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <Card>
@@ -145,13 +169,14 @@ const CourseTab = () => {
 
           <div>
             <Label>Description</Label>
+            {/* RichTextEditor component calling cleanly with fixed HTML lifecycle binding */}
             <RichTextEditor input={input} setInput={setInput} />
           </div>
 
           <div className="grid grid-cols-2 gap-5">
             <div>
               <Label>Category</Label>
-              <Select onValueChange={selectCategory}>
+              <Select value={input.category} onValueChange={selectCategory}>
                 <SelectTrigger className="w-full h-12 rounded-xl">
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
@@ -173,7 +198,7 @@ const CourseTab = () => {
 
             <div>
               <Label>Course Level</Label>
-              <Select onValueChange={selectCourseLevel}>
+              <Select value={input.courseLevel} onValueChange={selectCourseLevel}>
                 <SelectTrigger className="w-full h-12 rounded-xl">
                   <SelectValue placeholder="Select Level" />
                 </SelectTrigger>
