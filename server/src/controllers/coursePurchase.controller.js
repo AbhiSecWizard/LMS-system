@@ -9,7 +9,7 @@
 
 // // Safe Fallbacks agar .env load na ho rhi ho
 // const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
-// const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
+
 
 // // ==========================================
 // // 1. INITIATE PAYMENT

@@ -25,7 +25,7 @@ export default function PaymentSuccess() {
       try {
         // 🎯 Frontend se Backend ko trigger karenge status sync karne ke liye
         // Kyunki hum localhost testing me hain, hum direct status trigger bhej sakte hain
-        const response = await axios.get(`http://localhost:3000/api/v1/payment/status/${orderId}`, {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/payment/status/${orderId}`, {
           withCredentials: true
         });
 

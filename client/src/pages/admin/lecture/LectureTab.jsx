@@ -96,7 +96,7 @@ const LectureTab = () => {
 
     try {
       const res = await axios.post(
-        `http://localhost:3000/api/v1/media/upload-video`,
+        `${import.meta.env.VITE_BASE_URL}/media/upload-video`,
         formData,
         {
           headers: {
