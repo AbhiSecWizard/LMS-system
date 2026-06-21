@@ -1,85 +1,113 @@
-import { fetchBaseQuery } from "@reduxjs/toolkit/query"
-import { createApi } from "@reduxjs/toolkit/query/react"
+import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
 import { userLoggedIn, userLoggedOut } from "../authSlice";
 
-// Removed the trailing slash here
-const baseUrls = 'http://localhost:3000/api/v1/user'
+const baseUrl = "http://localhost:3000/api/v1/user";
 
-const authApi = createApi({ 
-  reducerPath: "authApi", 
+const authApi = createApi({
+  reducerPath: "authApi",
+
   baseQuery: fetchBaseQuery({
-    baseUrl: baseUrls, 
-    credentials: "include", 
+    baseUrl,
+    credentials: "include",
   }),
-  // Tag types tell RTK Query when to clear cached data
-  tagTypes: ["User"], 
+
+  tagTypes: ["User"],
+
   endpoints: (builder) => ({
+    // Register User
     registerUser: builder.mutation({
-      query: (inputData) => ({
-        url: '/register',
-        method: 'POST',
-        body: inputData
-      })
-    }),
-    loginUser: builder.mutation({
-      query: (inputData) => ({
-        url: '/login',
-        method: 'POST',
-        body: inputData
+      query: (userData) => ({
+        url: "/register",
+        method: "POST",
+        body: userData,
       }),
+    }),
+
+    // Login User
+    loginUser: builder.mutation({
+      query: (userData) => ({
+        url: "/login",
+        method: "POST",
+        body: userData,
+      }),
+
+      invalidatesTags: ["User"],
+
       async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
-          const result = await queryFulfilled;
-          dispatch(userLoggedIn({ user: result.data.user }))
+          const { data } = await queryFulfilled;
+
+          // Optional: instantly update redux
+          if (data?.user) {
+            dispatch(userLoggedIn({ user: data.user }));
+          }
         } catch (error) {
-          console.log(error)
+          console.error("Login error:", error);
         }
-      }
+      },
     }),
+
+    // Load Current User Profile
     loadUser: builder.query({
       query: () => ({
         url: "/profile",
-        method: "GET"
+        method: "GET",
       }),
+
+      providesTags: ["User"],
+
       async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
-          const result = await queryFulfilled;
-          dispatch(userLoggedIn({ user: result.data.user }))
+          const { data } = await queryFulfilled;
+
+          if (data?.user) {
+            dispatch(userLoggedIn({ user: data.user }));
+          }
         } catch (error) {
-          console.log(error)
+          console.error("Load user error:", error);
         }
       },
-      providesTags: ["User"] // Cache tied to this tag
     }),
+
+    // Update Profile
     updateUser: builder.mutation({
       query: (formData) => ({
-        url: "/profile/update", // Fixed potential double slash issue
+        url: "/profile/update",
         method: "PUT",
         body: formData,
       }),
-      invalidatesTags: ["User"] // Automatically forces 'loadUser' to refetch fresh data
+
+      invalidatesTags: ["User"],
     }),
+
+    // Logout User
     logoutUser: builder.mutation({
-      query:()=>({
-        url:"logout",
-        method:"GET",
+      query: () => ({
+        url: "/logout",
+        method: "GET",
       }),
-       async onQueryStarted(_, { queryFulfilled, dispatch }) {
+
+      invalidatesTags: ["User"],
+
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
-          dispatch(userLoggedOut({ user: null }))
+          await queryFulfilled;
+
+          dispatch(userLoggedOut());
         } catch (error) {
-          console.log(error)
+          console.error("Logout error:", error);
         }
-      }
-    })
-  })
-})
+      },
+    }),
+  }),
+});
 
 export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLoadUserQuery,
-  useUpdateUserMutation,useLogoutUserMutation
-} = authApi
+  useUpdateUserMutation,
+  useLogoutUserMutation,
+} = authApi;
 
 export default authApi;

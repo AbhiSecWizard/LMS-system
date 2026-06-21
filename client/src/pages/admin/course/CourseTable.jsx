@@ -51,9 +51,8 @@ const courses = data?.courses && Array.isArray(data.courses) ? data.courses : []
                   {course.isPublished ? "Published" : "Draft"}
                 </Badge>
               </TableCell>
-                <TableCell >
+                <TableCell>
                   <Button  onClick={()=>navigate(`${course._id}`)} size="sm" variant="outline" className="cursor-pointer">
-
                   <Edit/>
                   </Button>
                 </TableCell>

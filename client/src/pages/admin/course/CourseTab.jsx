@@ -21,17 +21,17 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEditCourseMutation, useGetCourseByIdQuery } from "@/features/courseApi";
+import { useEditCourseMutation, useGetCourseByIdQuery, usePublishCourseMutation } from "@/features/courseApi";
 import { toast } from "sonner";
 
 const CourseTab = () => {
   const navigate = useNavigate();
   const { courseId } = useParams(); 
+
   
   const { data: courseByIdData, isLoading: courseByIdLoading } = useGetCourseByIdQuery(courseId);
   const [editCourse, { data, isLoading, isSuccess, error }] = useEditCourseMutation();
-  
-  const isPublished = false;
+  const [publishCourse] = usePublishCourseMutation()
 
   const [input, setInput] = useState({
     courseTitle: "",
@@ -88,7 +88,6 @@ const CourseTab = () => {
       fileReader.readAsDataURL(file);
     }
   };
-
   const saveHandler = async () => {
     const formData = new FormData();
     formData.append("courseTitle", input.courseTitle);
@@ -97,14 +96,11 @@ const CourseTab = () => {
     formData.append("category", input.category);
     formData.append("courseLevel", input.courseLevel);
     formData.append("coursePrice", input.coursePrice);
-    
     if (input.courseThumbnail) {
       formData.append("courseThumbnail", input.courseThumbnail);
     }
-        
     await editCourse({ courseId, formData });
   };
-
   useEffect(() => {
     if (isSuccess) {
       toast.success(data?.message || "Course updated successfully.");
@@ -113,6 +109,32 @@ const CourseTab = () => {
       toast.error(error?.data?.message || "Failed to update course.");
     }
   }, [isSuccess, error, data]);
+
+const publishStatusHandler =async(action)=>{
+ try {
+  const response = await publishCourse({courseId,query:action})
+  if(response.data){
+    toast.success(response.data.message)
+  }
+
+ } catch (error) {
+  toast.error("Failed to publish or unpublish course")
+  console.log(error)
+ }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   if (courseByIdLoading) {
     return (
@@ -133,8 +155,8 @@ const CourseTab = () => {
             </CardDescription>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">
-              {isPublished ? "Unpublish" : "Publish"}
+            <Button variant="outline" disabled={courseByIdData?.course.lectures.length === 0} onClick={()=>publishStatusHandler(courseByIdData?.course.isPublished ? "false" : "true")}>
+              {courseByIdData?.course.isPublished ? "Unpublish" : "Publish"}
             </Button>
             <Button variant="destructive">
               Remove Course

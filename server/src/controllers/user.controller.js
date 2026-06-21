@@ -8,12 +8,12 @@ const register = async (req, res) => {
         if (!name || !email || !password) {
             return res.status(400).json({ success: false, message: "All fields are required" });
         }
-
+         
         let user = await userModel.findOne({ email });
         if (user) {
             return res.status(400).json({ success: false, message: "User Already exists" });
         }
-
+         
         email = email.toLowerCase().trim();
         let hashPassword = await bcryptjs.hash(password, 10);
 
@@ -91,7 +91,7 @@ const logout = async(req,res)=>{
 const getUserProfile = async (req,res)=>{
 try {
 const userId = req.id
-const user = await userModel.findById(userId).select("-password")
+const user = await userModel.findById(userId).select("-password").populate("enrolledCourses")
 if(!user){
     res.status(404).json({
         success:false,
@@ -175,11 +175,6 @@ const updatedUser = await userModel.findByIdAndUpdate(userId, updateData, { new:
         })
 }
 }
-
-
-
-
-
 const userControllers ={register,login,logout,getUserProfile,upadteUserProfile}
 module.exports = userControllers
  

@@ -46,7 +46,7 @@ const Navbar = () => {
     <div className="h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800">
       {/* {desktop} */}
       <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 cursor-pointer" onClick={()=>navigate("/")}>
           <School size={"30"} />
           <h1 className="hidden md:block font-extrabold text-2xl">
             E-Learning
@@ -84,7 +84,7 @@ const Navbar = () => {
                <div className="flex w-full items-center justify-center">
             {
               user?.role === "instructor" && (
-                <Button><span className="text-red" onClick={()=>navigate("/admin")}>Dashboard</span></Button>
+                <Button><span className="text-red" onClick={()=>navigate("/admin/dashboard")}>Dashboard</span></Button>
               )
             }
             </div>
@@ -94,11 +94,11 @@ const Navbar = () => {
             <DarkMode/> 
         </div> : <div className="flex items-center gap-2">
   <Button onClick={()=>navigate("/login")} variant="outline">Login</Button>
-  <Button>Signup</Button>
+  <Button onClick={()=>navigate("/login")}>Signup</Button>
    <DarkMode/>
 </div>
       }
-      </div>
+      </div>a
                       
       <MobileNavbar/>    
       <div>
