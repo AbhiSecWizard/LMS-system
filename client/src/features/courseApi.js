@@ -1,7 +1,6 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-// const COURSE_API = "http://localhost:3000/api/v1/course";
 const COURSE_API = `${import.meta.env.VITE_API_URL}/course`;
 
 export const courseApi = createApi({
@@ -109,24 +108,17 @@ export const courseApi = createApi({
     }),
     getSearchCourse: builder.query({
       query: ({ searchQuery = "", categories = [], sortByPrice = "" }) => {
-        // 1. Build initial query string (Fixed typo from 'qeury' to 'query')
         let queryString = `/search?query=${encodeURIComponent(searchQuery)}`;
-
-        // 2. Append categories if any exist (joined by commas)
         if (categories && categories.length > 0) {
           const categoriesString = categories.map(encodeURIComponent).join(",");
           queryString += `&categories=${categoriesString}`;
         }
-
-        // 3. Append price sorting configuration
         if (sortByPrice) {
           queryString += `&sortByPrice=${encodeURIComponent(sortByPrice)}`;
         }
-
         return {
           url: queryString,
           method: "GET",
-          // Note: "credentials: include" is already handled globally in baseQuery above
         };
       },
     }),
@@ -145,5 +137,5 @@ export const {
   useEditCourseMutation,
   useCreateLectureMutation,
   useGetPublishedCourseQuery,
-  useGetSearchCourseQuery, // Exported your search hook here!
+  useGetSearchCourseQuery,
 } = courseApi;

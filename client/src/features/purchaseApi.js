@@ -7,12 +7,12 @@ export const purchaseApi = createApi({
   reducerPath: "purchaseApi",
   baseQuery: fetchBaseQuery({
     baseUrl: PURCHASE_API,
-    credentials: "include", // Authentication tokens/cookies carry karne ke liye zaroori hai
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     getCourseWithStatus: builder.query({
       query: (courseId) => ({
-        url: `/course/${courseId}/detail-with-status`, // Ensure yahi path backend par ho
+        url: `/course/${courseId}/detail-with-status`, 
         method: "GET",
       }),
     }),
