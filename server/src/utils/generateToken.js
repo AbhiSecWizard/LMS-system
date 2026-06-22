@@ -16,38 +16,30 @@
 // }
 // module.exports = generateToken
 
-
 const jwt = require("jsonwebtoken");
 
-const isAuthenticated = async (req, res, next) => {
-    try {
-        const token = req.cookies.token;
-        if (!token) {
-            return res.status(401).json({
-                success: false,
-                message: "User not authenticated. Token missing!"
-            });
-        }
+const generateToken = async (res, user, message) => {
+  // Payload me 'userId' hi rakhein
+  const token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
 
-        // Token verify karein
-        const decode = await jwt.verify(token, process.env.JWT_SECRET);
-        if (!decode) {
-            return res.status(401).json({
-                success: false,
-                message: "Invalid token"
-            });
-        }
-
-        // 🌟 FIX: Kyunki generateToken me humne 'userId' store kiya tha, yahan bhi 'userId' hi nikalenge
-        req.id = decode.userId; 
-        next();
-    } catch (error) {
-        console.log("Error in isAuthenticated middleware:", error);
-        return res.status(500).json({
-            success: false,
-            message: "Internal server error"
-        });
+  return res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,        // HTTPS (Render) ke liye sahi hai
+    sameSite: "none",    // Cross-origin localhost ke liye sahi hai
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+  }).status(200).json({
+    success: true,
+    message: message,
+    user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        photoUrl: user.photoUrl,
+        role: user.role
     }
+  });
 };
 
-module.exports = isAuthenticated;
+module.exports = generateToken;
