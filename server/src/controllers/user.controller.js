@@ -69,20 +69,28 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-    try {
-        return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-             success: true,
-             message: "Logout successfully"
-        });
-    } catch (error) {
-         console.log(error);
-         return res.status(500).json({
-            success: false,
-            message: "Failed to logout"
-         });
-    }
-};
+  try {
+    res.cookie("token", "", {
+      httpOnly: true,
+      expires: new Date(0),
+      sameSite: "none", // ya "lax" jo login me use kiya hai
+      secure: true,     // login ke according
+      path: "/",
+    });
 
+    return res.status(200).json({
+      success: true,
+      message: "Logout successfully",
+    });
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to logout",
+    });
+  }
+};
 const getUserProfile = async (req, res) => {
     try {
         const userId = req.id;

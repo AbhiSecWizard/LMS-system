@@ -98,7 +98,7 @@ const Navbar = () => {
    <DarkMode/>
 </div>
       }
-      </div>a
+      </div>
                       
       <MobileNavbar/>    
       <div>
