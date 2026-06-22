@@ -2,10 +2,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, IndianRupee } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Course = ({ course }) => {
-  const getLevelStyle = (level) => {
+    const getLevelStyle = (level) => {
     switch (level?.toLowerCase()) {
       case "beginner":
         return "bg-emerald-50 text-emerald-700 border-emerald-200/60";
@@ -19,7 +19,7 @@ const Course = ({ course }) => {
         return "bg-slate-50 text-slate-700 border-slate-200/60";
     }
   };
-
+console.log(course)
   return (
    <Link to={`course-detail/${course?._id}`}>
      <Card className="group overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col h-full">
