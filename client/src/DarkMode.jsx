@@ -12,13 +12,12 @@ const DarkMode = () => {
   const { setTheme } = useTheme()
 
   return (
-    <DropdownMenu modal={false}>
+   <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        {/* 🟢 FIXED: size="iconc" ko badal kar size="icon" kiya aur classes ko optimize kiya */}
         <Button 
           variant="ghost" 
           size="icon" 
-          className="relative h-9 w-9 rounded-xl border border-slate-200/60 dark:border-slate-800/60 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer"
+          className="relative h-9 w-9 rounded-xl border border-slate-200/60 dark:border-slate-800/60 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer select-none"
         >
           {/* Sun Icon (Light Mode) */}
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0" />
@@ -33,23 +32,23 @@ const DarkMode = () => {
       {/* Dropdown Menu Style matched with Premium Navbar */}
       <DropdownMenuContent 
         align="end" 
-        className="w-32 mt-2 rounded-xl p-1 shadow-xl border-slate-100 dark:border-slate-800"
+        className="w-32 mt-2 rounded-xl p-1 shadow-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950"
       >
         <DropdownMenuItem 
           onClick={() => setTheme("light")} 
-          className="rounded-lg cursor-pointer font-medium text-sm py-2 focus:bg-slate-100 dark:focus:bg-slate-900"
+          className="rounded-lg cursor-pointer font-medium text-sm py-2 focus:bg-slate-100 dark:focus:bg-slate-900 text-slate-700 dark:text-slate-300"
         >
           Light
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => setTheme("dark")} 
-          className="rounded-lg cursor-pointer font-medium text-sm py-2 focus:bg-slate-100 dark:focus:bg-slate-900"
+          className="rounded-lg cursor-pointer font-medium text-sm py-2 focus:bg-slate-100 dark:focus:bg-slate-900 text-slate-700 dark:text-slate-300"
         >
           Dark
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => setTheme("system")} 
-          className="rounded-lg cursor-pointer font-medium text-sm py-2 focus:bg-slate-100 dark:focus:bg-slate-900"
+          className="rounded-lg cursor-pointer font-medium text-sm py-2 focus:bg-slate-100 dark:focus:bg-slate-900 text-slate-700 dark:text-slate-300"
         >
           System
         </DropdownMenuItem>

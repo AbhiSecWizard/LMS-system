@@ -9,6 +9,7 @@ courseRouter.get("/published-course", courseControllers.getPublishedCourse);
 courseRouter.get("/",isAuthenticated, courseControllers.getCreatorCourses);
 courseRouter.put("/:courseId", isAuthenticated, upload.single("courseThumbnail"), courseControllers.editCourse);
 courseRouter.get("/:courseId", isAuthenticated, upload.single("courseThumbnail"), courseControllers.getCourseId);
+courseRouter.delete("/:courseId", isAuthenticated, courseControllers.removeCourse);
 // Lectures Routesdeta
 courseRouter.post("/:courseId/lecture", isAuthenticated, courseControllers.createLecture);
 courseRouter.get("/:courseId/lecture", isAuthenticated, courseControllers.getCourseLecture);
@@ -17,4 +18,5 @@ courseRouter.put("/:courseId/lecture/:lectureId", isAuthenticated, courseControl
 courseRouter.delete("/lecture/:lectureId",isAuthenticated, courseControllers.removeLecture);
 courseRouter.get("/lecture/:lectureId",isAuthenticated, courseControllers.getLectureById);
 courseRouter.patch("/:courseId/publish", isAuthenticated, courseControllers.togglePublishCourse);
+
 module.exports = courseRouter;

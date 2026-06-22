@@ -43,7 +43,7 @@ const Navbar = () => {
 }, [isSuccess, data]);
   
   return (
-    <div className="h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800">
+    <div className="h-16 dark:bg-[#0A0A0A] dark:text-white bg-white text-black border-b dark:border-b-gray-800">
       {/* {desktop} */}
       <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
         <div className="flex items-center gap-2 cursor-pointer" onClick={()=>navigate("/")}>

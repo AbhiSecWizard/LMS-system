@@ -18,7 +18,7 @@ return (
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-   
+ <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">  
     <Provider store={appStore}>
  <Custom>
       <App />
@@ -26,5 +26,6 @@ createRoot(document.getElementById('root')).render(
     </Custom>
     
     </Provider>
-  </StrictMode>,
+  </ThemeProvider>
+  </StrictMode>
 )
