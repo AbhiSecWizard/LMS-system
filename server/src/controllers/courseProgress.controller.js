@@ -22,7 +22,7 @@ const getCourseProgress = async (req, res) => {
     if (!courseProgress) {
       return res.status(200).json({
         success: true,
-        data: {
+        data: { 
           courseDetails,
           progress: [],
           completed: false,
