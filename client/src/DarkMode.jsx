@@ -17,7 +17,7 @@ const DarkMode = () => {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="relative h-9 w-9 rounded-xl border border-slate-200/60 dark:border-slate-800/60 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer select-none"
+          className="relative h-9 w-9 rounded border border-slate-200/60 dark:border-slate-800/60 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer select-none"
         >
           {/* Sun Icon (Light Mode) */}
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0" />
@@ -32,7 +32,7 @@ const DarkMode = () => {
       {/* Dropdown Menu Style matched with Premium Navbar */}
       <DropdownMenuContent 
         align="end" 
-        className="w-32 mt-2 rounded-xl p-1 shadow-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950"
+        className="w-32 mt-2 rounded p-1 shadow-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950"
       >
         <DropdownMenuItem 
           onClick={() => setTheme("light")} 

@@ -109,123 +109,157 @@ useEffect(() => {
 ]);
 
   return (
-    <div className="flex h-screen overflow-x-hidden bg-gray-100 items-center justify-center">
-      <Tabs defaultValue="signup" className="w-[400px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="signup">Signup</TabsTrigger>
-          <TabsTrigger value="login">Login</TabsTrigger>
-        </TabsList>
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-4">
+    <div className="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden grid lg:grid-cols-2">
+      
+      {/* Left Section */}
+      <div className="hidden lg:flex flex-col justify-center items-center bg-gradient-to-br from-indigo-700 to-purple-700 text-white p-10">
+        <h1 className="text-5xl font-bold mb-4">
+          Learn Without Limits
+        </h1>
 
-        {/* Signup Tab */}
-        <TabsContent value="signup">
-          <div className="p-6 border rounded-lg bg-white shadow-sm">
-            <h3 className="text-lg font-medium">Sign up</h3>
-            <p className="text-sm text-muted-foreground">
-              Create a new account and click signup when you're done.
-            </p>
-            <div className="mt-4 space-y-4">
+        <p className="text-lg text-center text-gray-200 max-w-md">
+          Join thousands of students and start mastering modern web
+          development today.
+        </p>
+
+        <img
+          src="https://illustrations.popsy.co/white/web-design.svg"
+          alt="learning"
+          className="w-[400px] mt-8"
+        />
+      </div>
+
+      {/* Right Section */}
+      <div className="p-8 lg:p-12 flex items-center justify-center dark:bg-black dark:text-white text-black bg-white">
+        <Tabs defaultValue="signup" className="w-full max-w-md">
+          <TabsList className="grid grid-cols-2 w-full h-12">
+            <TabsTrigger value="signup">Signup</TabsTrigger>
+            <TabsTrigger value="login">Login</TabsTrigger>
+          </TabsList>
+
+          {/* Signup */}
+          <TabsContent value="signup">
+            <div className="space-y-5 mt-6">
               <div>
-                <Label htmlFor="s-name">Name</Label>
+                <h2 className="text-3xl font-bold">
+                  Create Account
+                </h2>
+                <p className="text-gray-500">
+                  Start your learning journey today.
+                </p>
+              </div>
+
+              <div>
+                <Label>Name</Label>
                 <Input
                   type="text"
                   name="name"
-                  id="s-name"
-                  placeholder="Eg. abhishek"
+                  placeholder="Enter your name"
                   value={inputSignup.name}
                   onChange={(e) => handleChange(e, "signup")}
-                  className="mt-2"
+                  className="mt-2 h-11 text-black bg-gray-400/10 dark:text-white"
                 />
               </div>
+
               <div>
-                <Label htmlFor="s-email">Email</Label>
+                <Label>Email</Label>
                 <Input
                   type="email"
                   name="email"
-                  id="s-email"
                   placeholder="example@gmail.com"
                   value={inputSignup.email}
                   onChange={(e) => handleChange(e, "signup")}
-                  className="mt-2"
+                  className="mt-2 h-11 text-black bg-gray-400/10 dark:text-white"
                 />
               </div>
+
               <div>
-                <Label htmlFor="s-password">Password</Label>
+                <Label>Password</Label>
                 <Input
                   type="password"
                   name="password"
-                  id="s-password"
+                  placeholder="********"
                   value={inputSignup.password}
                   onChange={(e) => handleChange(e, "signup")}
-                  className="mt-2"
+                  className="mt-2 h-11 text-black bg-gray-400/10 dark:text-white"
                 />
               </div>
+
               <Button
+                onClick={() => handleRegistration("signup")}
                 disabled={registerIsLoading}
-                onClick={() =>handleRegistration("signup")}
-                className="w-full mt-2"
+                className="w-full h-11 bg-indigo-600 hover:bg-indigo-700"
               >
-                {
-                  registerIsLoading ? (
-                   <> 
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please wait                    </>
-                  ) :"Signup"  
-                }
+                {registerIsLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    Creating Account...
+                  </>
+                ) : (
+                  "Create Account"
+                )}
               </Button>
             </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
 
-        {/* Login Tab */}
-        <TabsContent value="login">
-          <div className="p-6 border rounded-lg bg-white shadow-sm">
-            <h3 className="text-lg font-medium">Login</h3>
-            <p className="text-sm text-muted-foreground">
-              Enter your credentials to access your account.
-            </p>
-            <div className="mt-4 space-y-4">
+          {/* Login */}
+          <TabsContent value="login">
+            <div className="space-y-5 mt-6">
               <div>
-                <Label htmlFor="l-email">Email</Label>
+                <h2 className="text-3xl font-bold">
+                  Welcome Back
+                </h2>
+                <p className="text-gray-500">
+                  Login to continue learning.
+                </p>
+              </div>
+
+              <div>
+                <Label>Email</Label>
                 <Input
                   type="email"
                   name="email"
-                  id="l-email"
                   placeholder="example@gmail.com"
                   value={inputLogin.email}
                   onChange={(e) => handleChange(e, "login")}
-                  className="mt-2"
+                  className="mt-2 h-11 text-black bg-gray-400/10 dark:text-white"
                 />
               </div>
+
               <div>
-                <Label htmlFor="l-password">Password</Label>
+                <Label>Password</Label>
                 <Input
                   type="password"
                   name="password"
-                  id="l-password"
+                  placeholder="********"
                   value={inputLogin.password}
                   onChange={(e) => handleChange(e, "login")}
-                  className="mt-2"
+                  className="mt-2 h-11 text-black bg-gray-400/10 dark:text-white"
                 />
               </div>
+
               <Button
-               
+                onClick={() => handleRegistration("login")}
                 disabled={loginIsLoading}
-                onClick={() =>handleRegistration("login")}
-                className="w-full mt-2"
+                className="w-full h-11 bg-indigo-600 hover:bg-indigo-700"
               >
-                {
-                    loginIsLoading?(
-                        <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please wait 
-                        </>
-                    ) :"Login"
-                }
+                {loginIsLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    Logging In...
+                  </>
+                ) : (
+                  "Login"
+                )}
               </Button>
             </div>
-          </div>
-        </TabsContent>
-      </Tabs>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Login;

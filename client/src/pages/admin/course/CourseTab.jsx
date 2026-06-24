@@ -421,7 +421,7 @@ const CourseTab = () => {
 
   // 🟢 Course Delete karne ka Handler function
   const removeCourseHandler = async () => {
-    if (window.confirm("Kya aap sach mein yeh course aur iske saare lectures delete karna chahte hain? Yeh operation undo nahi ho sakta.")) {
+    if (window.confirm("If you are sure then click on OK")) {
       try {
         const response = await removeCourse(courseId).unwrap();
         toast.success(response?.message || "Course removed successfully.");

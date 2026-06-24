@@ -38,20 +38,46 @@ const createCourse = async (req, res) => {
 // ==========================================
 // GET CREATOR COURSES CONTROLLER (UPDATED)
 // ==========================================
+// const getCreatorCourses = async (req, res) => {
+//   try {
+//     const userId = req.id;
+//     // 🟢 FIXED: Added populate to fetch creator's name and photoUrl
+//     const courses = await Course.find({ creator: userId }).populate({ path: "creator", select: "name photoUrl" }); 
+    
+//     if (!courses || courses.length === 0) {
+//       return res.status(404).json({
+//         message: "Courses not found",
+//         courses: []
+//       });
+//     }
+    
+//     return res.status(200).json({
+//       courses,
+//       message: "Courses fetched successfully"
+//     });
+//   } catch (error) {
+//     console.error("Error fetching courses:", error);
+//     return res.status(500).json({ 
+//       message: "Failed to fetch courses" 
+//     });
+//   }
+// };
 const getCreatorCourses = async (req, res) => {
   try {
     const userId = req.id;
-    // 🟢 FIXED: Added populate to fetch creator's name and photoUrl
     const courses = await Course.find({ creator: userId }).populate({ path: "creator", select: "name photoUrl" }); 
     
+    // 🟢 FIXED: Agar courses khali hain, tab bhi status 200 hi bhejein
     if (!courses || courses.length === 0) {
-      return res.status(404).json({
-        message: "Courses not found",
-        courses: []
+      return res.status(200).json({
+        success: true,
+        message: "No courses found",
+        courses: [] // Khali array bhejein taaki frontend normal check kar sake
       });
     }
     
     return res.status(200).json({
+      success: true,
       courses,
       message: "Courses fetched successfully"
     });

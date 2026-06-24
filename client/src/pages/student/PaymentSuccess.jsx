@@ -3,22 +3,25 @@ import { useSearchParams, Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function PaymentSuccess() {
-  const [searchParams] = useSearchParams();
-  const {orderId} = useParams()
-  console.log(orderId)
+ const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const [statusMessage, setStatusMessage] = useState("Verifying your payment...");
+  const [statusMessage, setStatusMessage] = useState("");
   
+  // ✅ Get BOTH orderId and courseId from the search/query parameters
+  const orderId = searchParams.get("orderId");
+  const courseId = searchParams.get("courseId");
+
+  console.log("Extracted Order ID:", orderId);
+  console.log("Extracted Course ID:", courseId); 
   // URL se orderId aur courseId dono nikalna
   // const orderId = searchParams.get("orderId");
-  const courseId = searchParams.get("courseId");
 
   useEffect(() => {
 
     const verifyAndFixStatus = async () => {
       if (!orderId) {
         setLoading(false);
-        setStatusMessage("Order ID missing!");
+        // setStatusMessage("Order ID missing!");
         return;
       }
 

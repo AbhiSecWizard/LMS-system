@@ -85,16 +85,15 @@ const Profile = () => {
               {data?.user?.role?.toUpperCase()} 
             </span>
           </h1>
-          
-          <Dialog>
+          <Dialog className="">
             <DialogTrigger asChild>
               <Button className="rounded cursor-pointer mt-4">
                 Edit Profile
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className={"rounded dark:bg-black dark:text-white text-black bg-white"}>
               <DialogHeader>
-                <DialogTitle>Edit Profile</DialogTitle>
+                <DialogTitle className={"cursor-pointer"}>Edit Profile</DialogTitle>
                 <DialogDescription>
                   Make changes to profile here. Click save when you're done.
                 </DialogDescription>
@@ -120,8 +119,8 @@ const Profile = () => {
                   />                                       
                 </div>
               </div>
-              <DialogFooter>
-                <Button disabled={updateUserIsLoading} onClick={updateHandler}>
+              <DialogFooter className={""}>
+                <Button className={""} disabled={updateUserIsLoading} onClick={updateHandler}>
                   {updateUserIsLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait

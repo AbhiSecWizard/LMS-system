@@ -2,6 +2,12 @@ import { Menu, School, SquareArrowRightExit } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
+  LayoutDashboard,
+  BookOpen,
+  User,
+  LogOut,
+} from "lucide-react";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -41,7 +47,7 @@ const Navbar = () => {
     toast.success(data.message || "Logout successfully");
   }
 }, [isSuccess, data]);
-  
+  const DropManuListClass = "hover:bg-gray-400 cursor-pointer transition-all duration-300"
   return (
     <div className="h-16 dark:bg-[#0A0A0A] dark:text-white bg-white text-black border-b dark:border-b-gray-800">
       {/* {desktop} */}
@@ -62,29 +68,29 @@ const Navbar = () => {
   <AvatarFallback>CN</AvatarFallback>
 </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-40 rounded-xl" align="start">
+      <DropdownMenuContent className="w-40 rounded dark:bg-black dark:text-white text-black bg-white " align="start">
         <DropdownMenuGroup>
-          <DropdownMenuLabel className="text-black md:text-xl font-bold">My Account</DropdownMenuLabel>
-          <DropdownMenuItem>
+          <DropdownMenuLabel className=" md:text-xl font-bold">My Account</DropdownMenuLabel>
+          <DropdownMenuItem className={`${DropManuListClass}`}>
            <Link to="my-learning">
             My Learning
            </Link>
           
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem className={`${DropManuListClass}`}>
           <Link to="profile">
           Edit Profile
           </Link>
           </DropdownMenuItem>
 
-          <DropdownMenuItem className="flex items-center justify-between" onClick={logoutHandler}>
+          <DropdownMenuItem className={`flex items-center justify-between ${DropManuListClass}`} onClick={logoutHandler}>
             Logout <SquareArrowRightExit/>
           </DropdownMenuItem>
                <DropdownMenuSeparator/>
-               <div className="flex w-full items-center justify-center">
+               <div className=" cursor-pointer flex w-full items-center justify-center hover:bg-blue-400 transition-all duration-200 ">
             {
               user?.role === "instructor" && (
-                <Button><span className="text-red" onClick={()=>navigate("/admin/dashboard")}>Dashboard</span></Button>
+                <Button className={"cursor-pointer"}><span className="text-red cursor-pointer" onClick={()=>navigate("/admin/dashboard")}>Dashboard</span></Button>
               )
             }
             </div>
@@ -93,7 +99,7 @@ const Navbar = () => {
     </DropdownMenu>
             <DarkMode/> 
         </div> : <div className="flex items-center gap-2">
-  <Button onClick={()=>navigate("/login")} variant="outline">Login</Button>
+  <Button onClick={()=>navigate("/login")} variant="outline" className={"dark:bg-black/50  dark:text-white text-white bg-blue-400 hover:bg-blue-600 transition-all duration-200"}>Login</Button>
   <Button onClick={()=>navigate("/login")}>Signup</Button>
    <DarkMode/>
 </div>
@@ -109,34 +115,152 @@ const Navbar = () => {
 
 export default Navbar;
 
-const MobileNavbar = ()=>{
-    const {user} = useSelector(store=>store.auth)  
+const MobileNavbar = () => {
+  const { user } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
+  const [logoutUser] = useLogoutUserMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutUser().unwrap();
+      toast.success("Logout Successfully");
+      navigate("/login");
+    } catch (error) {
+      toast.error("Logout Failed");
+    }
+  };
+
+  const menuItems = [
+    {
+      title: "Dashboard",
+      icon: LayoutDashboard,
+      path: "/",
+    },
+    {
+      title: "My Learning",
+      icon: BookOpen,
+      path: "/my-learning",
+    },
+    {
+      title: "Profile",
+      icon: User,
+      path: "/profile",
+    },
+  ];
+
   return (
-<div className="md:hidden absolute top-3 right-3">
-   <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline"><Menu/></Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>My Account</SheetTitle>
-        </SheetHeader>
-        <div className="grid">
-           <Button className="flex justify-start focus:bg-gray-900">My Learning</Button>
-          <Button className="flex justify-start focus:bg-gray-900">Edit Profile</Button>
-          <Button className="flex justify-between  focus:bg-gray-900" > Logout <SquareArrowRightExit/></Button>
-        </div>
-        
-          {user?.role === "Instructor" && (
-             <div className="w-full flex justify-center bg-amber-200 py-4 rounded-xl my-6">
-             <Button className="bg-blue-500 h-16 rounded-2xl text-2xl font-bold focus:bg-blue-900">
-            Dashboard
+    <div className="md:hidden absolute top-3 right-3 z-50">
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-xl"
+          >
+            <Menu />
           </Button>
-           </div>
-          )}
-        
-      </SheetContent>
-    </Sheet>
-</div>
-  )
-}
+        </SheetTrigger>
+
+        <SheetContent
+          side="left"
+          className="w-[280px] border-none bg-[#1F2937] text-white p-0"
+        >
+          {/* Profile Section */}
+          <div className="px-6 pt-16 pb-8">
+            <div className="flex items-center gap-4">
+              <Avatar className="h-14 w-14 border-2 border-pink-400">
+                <AvatarImage
+                  src={
+                    user?.photoUrl ||
+                    "https://github.com/shadcn.png"
+                  }
+                />
+                <AvatarFallback>
+                  {user?.name?.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+
+              <div>
+                <h3 className="font-semibold text-lg">
+                  {user?.name || "Guest User"}
+                </h3>
+
+                <p className="text-sm text-gray-400">
+                  {user?.role || "Student"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-gray-700" />
+
+          {/* Menu */}
+          <div className="px-4 py-6 flex flex-col gap-2">
+            {menuItems.map((item) => (
+              <button
+                key={item.title}
+                onClick={() => navigate(item.path)}
+                className="
+                  flex items-center gap-4
+                  px-4 py-3
+                  rounded-xl
+                  text-gray-300
+                  hover:bg-white/10
+                  hover:text-white
+                  transition-all
+                "
+              >
+                <item.icon size={20} />
+                <span>{item.title}</span>
+              </button>
+            ))}
+
+            {user?.role === "instructor" && (
+              <button
+                onClick={() =>
+                  navigate("/admin/dashboard")
+                }
+                className="
+                  flex items-center gap-4
+                  px-4 py-3
+                  rounded-xl
+                  text-gray-300
+                  hover:bg-white/10
+                  hover:text-white
+                  transition-all
+                "
+              >
+                <LayoutDashboard size={20} />
+                Dashboard
+              </button>
+            )}
+          </div>
+
+          {/* Bottom Section */}
+          <div className="mt-auto px-4 py-6 border-t border-gray-700">
+            <div className="mb-4">
+              <DarkMode />
+            </div>
+
+            <button
+              onClick={logoutHandler}
+              className="
+                flex items-center gap-4
+                w-full
+                px-4 py-3
+                rounded-xl
+                text-red-400
+                hover:bg-red-500/10
+                transition-all
+              "
+            >
+              <LogOut size={20} />
+              Logout
+            </button>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+};
