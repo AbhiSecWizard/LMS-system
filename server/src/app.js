@@ -19,7 +19,10 @@ app.use(cookieParser()); // Parses cookies attached to the client request
 
 // 2. CORS CONFIGURATION (Enhanced for Production)
 app.use(cors({
-    origin: "http://localhost:5173", // Tumhara frontend URL
+    origin: [
+        "http://localhost:5173", 
+        "https://lms-system-frontend-8k9n.onrender.com"
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
 }));
