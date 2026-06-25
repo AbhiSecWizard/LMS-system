@@ -3,6 +3,7 @@ const courseControllers = require("../controllers/course.controller");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const upload = require("../utils/multer");
 const courseRouter = express.Router();
+
 courseRouter.get("/search", isAuthenticated  , courseControllers.searchCourse);
 courseRouter.post("/", isAuthenticated, courseControllers.createCourse);
 courseRouter.get("/published-course", courseControllers.getPublishedCourse);
@@ -18,5 +19,4 @@ courseRouter.put("/:courseId/lecture/:lectureId", isAuthenticated, courseControl
 courseRouter.delete("/lecture/:lectureId",isAuthenticated, courseControllers.removeLecture);
 courseRouter.get("/lecture/:lectureId",isAuthenticated, courseControllers.getLectureById);
 courseRouter.patch("/:courseId/publish", isAuthenticated, courseControllers.togglePublishCourse);
-
 module.exports = courseRouter;

@@ -132,11 +132,6 @@ const MobileNavbar = () => {
 
   const menuItems = [
     {
-      title: "Dashboard",
-      icon: LayoutDashboard,
-      path: "/",
-    },
-    {
       title: "My Learning",
       icon: BookOpen,
       path: "/my-learning",
