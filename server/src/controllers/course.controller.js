@@ -6,6 +6,7 @@ const { uploadMedia, deleteMediaFromCloudinary } = require("../utils/cloudinary"
 // ==========================================
 // CREATE COURSE CONTROLLER
 // ==========================================
+
 const createCourse = async (req, res) => {
   try {
     const { courseTitle, category } = req.body;

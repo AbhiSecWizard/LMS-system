@@ -60,7 +60,7 @@ const CreateLecture = () => {
           {/* Course Title */}
           <div className="space-y-2">
             <Label htmlFor="lectureTitle" className="text-sm font-semibold">
-              Course Title
+             Lecture Title
             </Label>
             <Input
               type="text"
@@ -68,7 +68,7 @@ const CreateLecture = () => {
               value={lectureTitle}
               name="lectureTitle"
               onChange={(e) => setLectureTitle(e.target.value)}
-              placeholder="Enter your course title"
+              placeholder="Enter your Lecture title"
               className="h-12 rounded-xl"
             />
           </div>

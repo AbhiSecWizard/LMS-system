@@ -4,9 +4,7 @@ import { CartesianGrid, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis, L
 
 const Dashboard = () => {
   console.log("Dashboard rendering with real response structure");
-  
   const { data, isLoading, isError } = useGetPurchaseCoursesQuery();
-
   // 🟢 FIXED: Loading and Error messages fully themed
   if (isLoading) {
     return (
@@ -17,7 +15,6 @@ const Dashboard = () => {
       </div>
     );
   }
-  
   if (isError) {
     return (
       <div className="flex justify-center items-center min-h-[50vh]">

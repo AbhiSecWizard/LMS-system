@@ -70,6 +70,7 @@ export const authApi = createApi({
         url: "/logout",
         method: "GET",
       }),
+      invalidatesTags: ["User"],
       async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;

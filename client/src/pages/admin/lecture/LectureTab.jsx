@@ -83,46 +83,89 @@ const LectureTab = () => {
   }, [removeSuccess, removeData, navigate, courseId]); 
 
   // File Upload Logic
-  const handleFileChangeHandler = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  // const handleFileChangeHandler = async (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
     
-    const formData = new FormData();
-    formData.append("file", file);
+  //   const formData = new FormData();
+  //   formData.append("file", file);
     
-    setMediaProgress(true);
-    setUploadProgress(0);
-    setBtnDisable(true); // Disable save button while uploading
+  //   setMediaProgress(true);
+  //   setUploadProgress(0);
+  //   setBtnDisable(true); // Disable save button while uploading
 
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/media/upload-video`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          onUploadProgress: ({ loaded, total }) => {
-            setUploadProgress(Math.round((loaded * 100) / total));
-          },
-        }
-      );
+  //   try {
+  //     const res = await axios.post(
+  //       `${import.meta.env.VITE_BASE_URL}/media/upload-video`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //         onUploadProgress: ({ loaded, total }) => {
+  //           setUploadProgress(Math.round((loaded * 100) / total));
+  //         },
+  //       }
+  //     );
 
-      if (res.data.success) {
-        setVideoInfo({
-          videoUrl: res.data.data.secure_url, 
-          publicId: res.data.data.public_id,
-        });
-        toast.success("Video uploaded successfully!");
+  //     if (res.data.success) {
+  //       setVideoInfo({
+  //         videoUrl: res.data.data.secure_url, 
+  //         publicId: res.data.data.public_id,
+  //       });
+  //       toast.success("Video uploaded successfully!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Upload error:", error);
+  //     toast.error(error.response?.data?.message || "Video upload failed");
+  //   } finally {
+  //     setMediaProgress(false);
+  //     setBtnDisable(false);
+  //   }
+  // };
+const handleFileChangeHandler = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  const formData = new FormData();
+  formData.append("file", file);
+  
+  setMediaProgress(true);
+  setUploadProgress(0);
+  setBtnDisable(true); 
+
+  try {
+    // 🟢 FIXED: Aapki config ke hisaab se variable ka naam VITE_API_URL hai!
+    const backendApiUrl = import.meta.env.VITE_API_URL || "https://lms-system-kitn.onrender.com/api/v1"; 
+    
+    const res = await axios.post(
+      `${backendApiUrl}/media/upload-video`, // Ab yeh seedhe Render production domain par hit karega
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: ({ loaded, total }) => {
+          setUploadProgress(Math.round((loaded * 100) / total));
+        },
       }
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast.error(error.response?.data?.message || "Video upload failed");
-    } finally {
-      setMediaProgress(false);
-      setBtnDisable(false);
+    );
+
+    if (res.data.success) {
+      setVideoInfo({
+        videoUrl: res.data.data.secure_url, 
+        publicId: res.data.data.public_id,
+      });
+      toast.success("Video uploaded successfully!");
     }
-  };
+  } catch (error) {
+    console.error("Upload error:", error);
+    toast.error(error.response?.data?.message || "Video upload failed");
+  } finally {
+    setMediaProgress(false);
+    setBtnDisable(false);
+  }
+};
 
   if (isLectureLoading) {
     return <div className="text-center py-10 text-muted-foreground">Loading Lecture details...</div>;
